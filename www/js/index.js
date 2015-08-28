@@ -62,7 +62,7 @@ var app = {
           changeText(Element, 'Started');
           startLat = 0; startLong = 0; ctr = 0;
 
-          navigator.geolocation.watchPosition(onSuccess, onError, {frequency: 3000, enableHighAccuracy: true});
+          navigator.geolocation.watchPosition(onSuccess, onError, { maximumAge: 3000, enableHighAccuracy: true });
 
           bgGeo.configure(onBackgroundSuccess, onError, {
               desiredAccuracy: 10,
