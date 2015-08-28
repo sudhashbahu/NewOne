@@ -69,7 +69,7 @@ function mainGPSSink(long, lat) {
         changeText(elem, dist);
         if ((dist > 1) && SMSSet)
         {
-            if ((Date.now() - prevSend) > 900000)
+            if ((Date.now() - prevSend) > 600000)
             {
                 //CONFIGURATION
                 var options = {
@@ -83,7 +83,6 @@ function mainGPSSink(long, lat) {
                 var smserror = function (e) { };
                 sms.send(SMSNum, 'Patient has gone beyond limit', options, smssuccess, smserror);
                 prevSend = Date.now();
-
             }
         }
     }
@@ -119,9 +118,18 @@ var app = {
 
           navigator.geolocation.watchPosition(onSuccess, onError, { maximumAge: 3000, enableHighAccuracy: false });
 
-          cordova.plugins.backgroundMode.setDefaults({ title: 'Patient Monitoring'});
+          cordova.plugins.backgroundMode.setDefaults({ title: 'Patient Monitoring', text: 'Tracking ...'});
          // Enable background mode
           cordova.plugins.backgroundMode.enable();
+
+         // Called when background mode has been activated
+          cordova.plugins.backgroundMode.onactivate = function () {
+                  // Modify the currently displayed notification
+                  cordova.plugins.backgroundMode.configure({
+                      title: 'Patient Monitoring', text: 'Tracking ...' + ctr.toString()
+                  });
+          }
+
 
      }
 };
