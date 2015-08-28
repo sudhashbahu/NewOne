@@ -1,8 +1,6 @@
 ﻿
 var startLat, startLong, ctr;
 
-var bgGeo = navigator.plugins.backgroundGeoLocation;
-
 function changeText(elem, changeVal) {
      if ((elem.textContent) && (typeof (elem.textContent) != "undefined")) {
           elem.textContent = changeVal;
@@ -20,11 +18,6 @@ function onSuccess(position) {
 function onError(error) {
      alert('code: ' + error.code + '\n' +
           'message: ' + error.message + '\n');
-}
-
-function onBackgroundSuccess(location)
-{
-    mainGPSSink(location.longitude, location.latitude);
 }
 
 function mainGPSSink(long, lat) {
@@ -62,15 +55,21 @@ var app = {
           changeText(Element, 'Started');
           startLat = 0; startLong = 0; ctr = 0;
 
-          navigator.geolocation.watchPosition(onSuccess, onError, { maximumAge: 3000, enableHighAccuracy: true });
+          navigator.geolocation.watchPosition(onSuccess, onError, { maximumAge: 3000, enableHighAccuracy: false });
 
-          bgGeo.configure(onBackgroundSuccess, onError, {
-              desiredAccuracy: 10,
-              stationaryRadius: 10,
-              distanceFilter: 30,
-              debug: true
-          });
+          cordova.plugins.backgroundMode.setDefaults({ text: 'Patient Monitoring' });
+         // Enable background mode
+          cordova.plugins.backgroundMode.enable();
 
-          bgGeo.start();
+         // Called when background mode has been activated
+          cordova.plugins.backgroundMode.onactivate = function () {
+              setTimeout(function () {
+                  // Modify the currently displayed notification
+                  cordova.plugins.backgroundMode.configure({
+                      text: 'Patient Monitoring' + ctr.toString()
+                  });
+              }, 3000);
+          }
+
      }
 };
