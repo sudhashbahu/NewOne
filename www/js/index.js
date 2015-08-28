@@ -1,7 +1,8 @@
 ﻿
-var Lat, Long, ctr;
+var Lat, Long, ctr, dist;
 var homeLat, homeLong;
-var SMSNum;
+var SMSNum, SMSSet;
+var prevSend;
 
 function setHome() {
     homeLat = Lat;
@@ -28,6 +29,7 @@ function deg2rad(deg) {
 
 function setSMS() {
     SMSNum = document.getElementById('SMSNum').value;
+    SMSSet = true;
 }
 
 function changeText(elem, changeVal) {
@@ -63,7 +65,27 @@ function mainGPSSink(long, lat) {
     if (homeLat > 0)
     {
         elem = document.getElementById('Distance');
-        changeText(elem, getDistanceFromLatLonInKm(lat, long, homeLat, homeLong));
+        dist = getDistanceFromLatLonInKm(lat, long, homeLat, homeLong);
+        changeText(elem, dist);
+        if ((dist > 1) && SMSSet)
+        {
+            if ((Date.now() - prevSend) > 900000)
+            {
+                //CONFIGURATION
+                var options = {
+                    replaceLineBreaks: false, // true to replace \n by a new line, false by default
+                    android: {
+                        intent: '' // send SMS without open any other app
+                    }
+                };
+
+                var smssuccess = function () { };
+                var smserror = function (e) { };
+                sms.send(SMSNum, 'Patient has gone beyond limit', options, smssuccess, smserror);
+                prevSend = Date.now();
+
+            }
+        }
     }
 }
 
@@ -93,7 +115,7 @@ var app = {
 
           document.getElementById('SetHome').style.visibility = "hidden";
 
-          Lat = 0; tLong = 0; ctr = 0; homeLat = 0; homeLong = 0; SMSNum = 0;
+          Lat = 0; tLong = 0; ctr = 0; homeLat = 0; homeLong = 0; SMSNum = 0; dist = 0; prevSend = Date.now(); SMSSet = false;
 
           navigator.geolocation.watchPosition(onSuccess, onError, { maximumAge: 3000, enableHighAccuracy: false });
 

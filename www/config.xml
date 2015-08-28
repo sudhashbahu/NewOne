@@ -26,7 +26,7 @@
 
   <gap:plugin name="org.apache.cordova.geolocation" version="0.3.10" />
   <gap:plugin name="de.appplant.cordova.plugin.background-mode" version="0.6.4" />
-
+  <gap:plugin name="com.cordova.plugins.sms" version="0.1.2" />
 
 
   <icon src="icon.png" />
