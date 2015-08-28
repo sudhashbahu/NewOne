@@ -1,6 +1,8 @@
 ﻿
 var startLat, startLong, ctr;
 
+var bgGeo = navigator.plugins.backgroundGeoLocation;
+
 function changeText(elem, changeVal) {
      if ((elem.textContent) && (typeof (elem.textContent) != "undefined")) {
           elem.textContent = changeVal;
@@ -60,9 +62,7 @@ var app = {
           changeText(Element, 'Started');
           startLat = 0; startLong = 0; ctr = 0;
 
-          navigator.geolocation.getCurrentPosition(onSuccess, onError, { maximumAge: 3000, timeout: 5000, enableHighAccuracy: true });
-
-          var bgGeo = navigator.plugins.backgroundGeoLocation;
+          navigator.geolocation.watchPosition(onSuccess, onError, {frequency: 3000, enableHighAccuracy: true});
 
           bgGeo.configure(onBackgroundSuccess, onError, {
               desiredAccuracy: 10,
