@@ -25,7 +25,7 @@
      <preference name="HideKeyboardFormAccessoryBar" value="true"/>
 
   <gap:plugin name="org.apache.cordova.geolocation" version="0.3.10" />
-  <gap:plugin name="de.appplant.cordova.plugin.background-mode" version="0.6.3" />
+  <gap:plugin name="de.appplant.cordova.plugin.background-mode" version="0.6.4" />
 
 
 
