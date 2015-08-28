@@ -15,8 +15,11 @@
           <div id="Location">
           Latitude: <span id="Latitude"></span><br />
           Longitude: <span id="Longitude"></span><br />
+          Distance from Home: <span id="Distance"></span><br />
           Counter: <span id="Counter"></span><br />
           </div>
+              <div id="SetHome"><input type="button" value="Set as Home" onclick="setHome()"></div>
+              <div><input type="text" value="<SMS Number>" name="SMSNum" id="SMSNum"><input type="button" value="Set SMS" onclick="setSMS()"></div>
           </div>
           <script type="text/javascript" src="phonegap.js"></script>
           <script type="text/javascript" src="js/index.js"></script>
